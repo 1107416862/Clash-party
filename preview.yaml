@@ -1,0 +1,546 @@
+# 仅供预览；本机虚构节点不能用于上网。
+proxies:
+- name: HK 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20001
+- name: 台灣 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20002
+- name: Singapore 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20003
+- name: 東京 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20004
+- name: Seoul 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20005
+- name: 美国 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20006
+- name: 德国 01
+  type: socks5
+  server: 127.0.0.1
+  port: 20007
+- name: 剩余流量 100GB
+  type: socks5
+  server: 127.0.0.1
+  port: 20008
+dns:
+  enable: true
+  nameserver:
+  - https://dns.alidns.com/dns-query
+tun:
+  enable: false
+mixed-port: 17890
+proxy-groups:
+- name: 香港
+  type: url-test
+  proxies:
+  - HK 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(香港|港仔|港岛|🇭🇰|(?:^|[^A-Za-z])HK(?:[^A-Za-z]|$)|Hong[ -]?Kong)
+  tolerance: 50
+- name: 台湾
+  type: url-test
+  proxies:
+  - 台灣 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(台湾|台灣|台北|新北|彰化|🇹🇼|(?:^|[^A-Za-z])TW(?:[^A-Za-z]|$)|Taiwan|Taipei)
+  tolerance: 50
+- name: 新加坡
+  type: url-test
+  proxies:
+  - Singapore 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(新加坡|狮城|獅城|🇸🇬|(?:^|[^A-Za-z])SG(?:[^A-Za-z]|$)|Singapore)
+  tolerance: 50
+- name: 日本
+  type: url-test
+  proxies:
+  - 東京 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(日本|东京|東京|大阪|埼玉|🇯🇵|(?:^|[^A-Za-z])JP(?:[^A-Za-z]|$)|Japan|Tokyo|Osaka)
+  tolerance: 50
+- name: 韩国
+  type: url-test
+  proxies:
+  - Seoul 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(韩国|韓國|首尔|首爾|🇰🇷|(?:^|[^A-Za-z])KR(?:[^A-Za-z]|$)|Korea|Seoul)
+  tolerance: 50
+- name: 美国
+  type: url-test
+  proxies:
+  - 美国 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  filter: (?i)(美国|美國|洛杉矶|洛杉磯|硅谷|矽谷|西雅图|西雅圖|纽约|紐約|圣何塞|聖何塞|🇺🇸|(?:^|[^A-Za-z])USA?(?:[^A-Za-z]|$)|United[
+    -]?States|Los[ -]?Angeles|San[ -]?Jose|Seattle|New[ -]?York)
+  tolerance: 50
+- name: 全部节点
+  type: url-test
+  proxies:
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+  tolerance: 50
+- name: Google自动转移
+  type: fallback
+  proxies:
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+  url: https://www.google.com/generate_204
+  interval: 300
+  lazy: false
+  timeout: 5000
+  expected-status: 204
+  empty-fallback: REJECT
+  exclude-filter: (?i)(剩余|流量|到期|过期|套餐|官网|网址|公告|重置|有效期|Traffic|Expire|Reset|DIRECT|REJECT)
+- name: 节点选择
+  type: select
+  proxies:
+  - Google自动转移
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - 全部节点
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: AI 集合
+  type: select
+  proxies:
+  - 美国
+  - 新加坡
+  - 日本
+  - 节点选择
+  - 香港
+  - 台湾
+  - 韩国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: 谷歌
+  type: select
+  proxies:
+  - Google自动转移
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: 哔哩哔哩
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: Apple
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: YouTube
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: TikTok
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: Telegram
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: Twitter
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: Instagram
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: GitHub
+  type: select
+  proxies:
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+  - 全部节点
+  - DIRECT
+  - HK 01
+  - 台灣 01
+  - Singapore 01
+  - 東京 01
+  - Seoul 01
+  - 美国 01
+  - 德国 01
+- name: 广告拦截
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: 本地直连
+  type: select
+  proxies:
+  - DIRECT
+  - REJECT
+  - 节点选择
+- name: 国内直连
+  type: select
+  proxies:
+  - DIRECT
+  - 节点选择
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+- name: 漏网之鱼
+  type: select
+  proxies:
+  - 节点选择
+  - DIRECT
+  - 香港
+  - 台湾
+  - 新加坡
+  - 日本
+  - 韩国
+  - 美国
+  - Google自动转移
+rules:
+- DOMAIN-SUFFIX,local,本地直连
+- DOMAIN-SUFFIX,lan,本地直连
+- DOMAIN,localhost,本地直连
+- RULE-SET,cp-private,本地直连
+- IP-CIDR,127.0.0.0/8,本地直连,no-resolve
+- IP-CIDR,10.0.0.0/8,本地直连,no-resolve
+- IP-CIDR,172.16.0.0/12,本地直连,no-resolve
+- IP-CIDR,192.168.0.0/16,本地直连,no-resolve
+- IP-CIDR,169.254.0.0/16,本地直连,no-resolve
+- IP-CIDR,100.64.0.0/10,本地直连,no-resolve
+- IP-CIDR6,::1/128,本地直连,no-resolve
+- IP-CIDR6,fc00::/7,本地直连,no-resolve
+- IP-CIDR6,fe80::/10,本地直连,no-resolve
+- RULE-SET,cp-ads,广告拦截
+- RULE-SET,cp-ai,AI 集合
+- RULE-SET,cp-youtube,YouTube
+- RULE-SET,cp-bilibili,哔哩哔哩
+- RULE-SET,cp-tiktok,TikTok
+- RULE-SET,cp-telegram,Telegram
+- RULE-SET,cp-twitter,Twitter
+- RULE-SET,cp-instagram,Instagram
+- RULE-SET,cp-github,GitHub
+- RULE-SET,cp-apple,Apple
+- RULE-SET,cp-google,谷歌
+- RULE-SET,cp-telegram-ip,Telegram,no-resolve
+- RULE-SET,cp-cn,国内直连
+- RULE-SET,cp-cn-ip,国内直连,no-resolve
+- MATCH,漏网之鱼
+rule-providers:
+  cp-ai:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/AI.list
+    path: ./ruleset/clash-party/ai.list
+    interval: 86400
+  cp-private:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs
+    path: ./ruleset/clash-party/cp-private.mrs
+    interval: 86400
+  cp-ads:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs
+    path: ./ruleset/clash-party/cp-ads.mrs
+    interval: 86400
+  cp-google:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs
+    path: ./ruleset/clash-party/cp-google.mrs
+    interval: 86400
+  cp-bilibili:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs
+    path: ./ruleset/clash-party/cp-bilibili.mrs
+    interval: 86400
+  cp-youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs
+    path: ./ruleset/clash-party/cp-youtube.mrs
+    interval: 86400
+  cp-tiktok:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs
+    path: ./ruleset/clash-party/cp-tiktok.mrs
+    interval: 86400
+  cp-telegram:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs
+    path: ./ruleset/clash-party/cp-telegram.mrs
+    interval: 86400
+  cp-twitter:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs
+    path: ./ruleset/clash-party/cp-twitter.mrs
+    interval: 86400
+  cp-instagram:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/instagram.mrs
+    path: ./ruleset/clash-party/cp-instagram.mrs
+    interval: 86400
+  cp-github:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs
+    path: ./ruleset/clash-party/cp-github.mrs
+    interval: 86400
+  cp-apple:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs
+    path: ./ruleset/clash-party/cp-apple.mrs
+    interval: 86400
+  cp-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs
+    path: ./ruleset/clash-party/cp-cn.mrs
+    interval: 86400
+  cp-telegram-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs
+    path: ./ruleset/clash-party/cp-telegram-ip.mrs
+    interval: 86400
+  cp-cn-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs
+    path: ./ruleset/clash-party/cp-cn-ip.mrs
+    interval: 86400
+mode: rule
+profile:
+  store-selected: true
