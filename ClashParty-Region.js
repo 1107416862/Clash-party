@@ -125,12 +125,23 @@ function main(config) {
   targets.set('Advertising',groupName('广告拦截'));
   const ruleProviders={}, rules=[];
   const priority=['Advertising','OpenAI','Claude','Gemini','YouTube','GitHub','BiliBili','TikTok','Telegram','Twitter','Apple','Google','Microsoft'];
+  const base='https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash';
   for (const id of priority) {
     const file=['Apple','Advertising'].includes(id)?id+'_Classical':id;
-    const base='https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash';
     ruleProviders[id]={type:'http',behavior:'classical',format:'yaml',url:`${base}/${id}/${file}.yaml`,path:`./ruleset/party-region/${file}.yaml`,interval:86400};
     rules.push(`RULE-SET,${id},${targets.get(id)},no-resolve`);
   }
+  // 应用专属规则优先。其余域名与大陆地址在 Final 之前直连。
+  for (const [id, folder, file, behavior] of [
+    ['ChinaDomains', 'ChinaMax', 'ChinaMax_Domain', 'domain'],
+    ['ChinaIPs', 'ChinaIPs', 'ChinaIPs_IP', 'ipcidr']
+  ]) {
+    ruleProviders[id] = {
+      type: 'http', behavior, format: 'yaml', interval: 86400,
+      url: `${base}/${folder}/${file}.yaml`, path: `./ruleset/party-region/${file}.yaml`
+    };
+  }
+  rules.push('DOMAIN-SUFFIX,cn,DIRECT', 'RULE-SET,ChinaDomains,DIRECT', 'RULE-SET,ChinaIPs,DIRECT');
   rules.push('MATCH,'+groupName('Final'));
   config['proxy-groups']=groups;
   config['rule-providers']=ruleProviders;
